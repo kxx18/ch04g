@@ -1,3 +1,5 @@
+// ./ -> this signals to node that shouldn't look at node modules
+var fortune = require('./lib/fortune.js');
 var express = require('express');
 var app = express();
 
@@ -10,13 +12,6 @@ app.set('port', process.env.PORT || 3000);
 //middleware provides modularization making it easier to handle requests
 app.use(express.static(__dirname + '/public'));
 
-var fortunes = [
-    "Conquer your or they will conquer you.",
-    "River need springs",
-    "Do not fear what you don't know",
-    "Whenever possible, keep it simple",
-];
-
 //app.get // we add routes in express js
 //takes two params: path, and a callback function
 app.get('/', (req, res) => {
@@ -25,8 +20,7 @@ app.get('/', (req, res) => {
 
 
 app.get('/about', (req,res)=>{
-    var randomFortune = fortunes[Math.floor(Math.random() * fortunes.length)];
-	res.render('about', { fortune: randomFortune });
+	res.render('about', { fortune: fortune.getFortune() });
 
 });
 
